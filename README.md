@@ -137,10 +137,10 @@ dotnet run
 
 ## 👨‍💻 Autores
 
-Arthur Martins
-Carlos Eduardo
-Caio de Paiva
-Emanuel de Oliveira
+Arthur Martins -
+Carlos Eduardo -
+Caio de Paiva -
+Emanuel de Oliveira -
 Laura Lima
 
 🔗 GitHub: https://github.com/Kadu-Quintella
