@@ -4,18 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionar serviços
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Registrar serviços de negócio
 builder.Services.AddSingleton<EventoService>();
 builder.Services.AddSingleton<CupomService>();
 builder.Services.AddSingleton<UsuarioService>();
 
 var app = builder.Build();
 
-// Configurar pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
 }
