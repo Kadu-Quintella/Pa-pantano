@@ -1,5 +1,6 @@
 # 🎟️ API de Gestão de Eventos(TicketPrime) - (Pa Pântano)
 
+
 ## 📌 Visão Geral
 
 Esta **API** é uma aplicação backend desenvolvida em **C#**, com o objetivo de gerenciar eventos e a comercialização de ingressos.
