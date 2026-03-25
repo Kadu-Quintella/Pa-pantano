@@ -1,6 +1,6 @@
 # API TicketPrime - Documentação
 
-Sua API está rodando em `http://localhost:5000`
+API FUNCIONAL: `http://localhost:5000`
 
 ## Endpoints Disponíveis
 
