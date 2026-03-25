@@ -32,7 +32,7 @@ A plataforma permite que clientes (organizadores) criem e administrem eventos, e
 ## 🛠️ Tecnologias Utilizadas
 
 * **C#**
-* **.NET (ASP.NET Core)** *(caso tenha usado, recomendo deixar)*
+* **.NET (ASP.NET Core)**
 * Git & GitHub
 
 ---
