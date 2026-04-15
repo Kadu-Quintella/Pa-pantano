@@ -9,3 +9,4 @@ Para compilar e rodar a API, certifique-se de ter o SDK do .NET instalado, naveg
 ```bash
 cd src
 dotnet run
+```
