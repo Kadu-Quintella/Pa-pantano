@@ -11,7 +11,7 @@ app.UseStaticFiles();
 app.UseDefaultFiles(); 
 app.UseStaticFiles();  
 
-string connectionString = "Server=SEU_SERVIDOR;Database=TicketPrime;User Id=SA;Password=SUA_SENHA;";
+string connectionString = "Server=localhost;Database=TicketPrime;Trusted_Connection=True;TrustServerCertificate=True;";
 
 app.MapPost("/api/eventos", async (Evento evento) => {
     using var db = new SqlConnection(connectionString);
