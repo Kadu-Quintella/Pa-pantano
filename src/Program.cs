@@ -14,9 +14,7 @@ app.UseStaticFiles();
 
 string connectionString = "Server=.\\SQLEXPRESS;Database=TicketPrime;Trusted_Connection=True;TrustServerCertificate=True;";
 
-// ==========================
 // EVENTOS
-// ==========================
 
 // BUSCAR eventos (GET)
 app.MapGet("/api/eventos", async () =>
@@ -37,9 +35,7 @@ app.MapPost("/api/eventos", async (Evento evento) =>
     return Results.Created("/api/eventos", evento);
 });
 
-// ==========================
 // USUÁRIOS
-// ==========================
 
 // BUSCAR usuários (GET)
 app.MapGet("/api/usuarios", async () => {
@@ -63,9 +59,7 @@ app.MapPost("/api/usuarios", async (Usuario usuario) =>
     return Results.Created($"/api/usuarios/{usuario.Cpf}", usuario);
 });
 
-// ==========================
 // CUPONS
-// ==========================
 
 // BUSCAR cupons (GET) - Necessário para aparecer na tabela do site
 app.MapGet("/api/cupons", async () => {
@@ -86,9 +80,8 @@ app.MapPost("/api/cupons", async (Cupom cupom) =>
 
 app.Run();
 
-// ==========================
 // MODELS (Records)
-// ==========================
+
 public record Evento(string Nome, int CapacidadeTotal, DateTime DataEvento, decimal PrecoPadrao);
 public record Usuario(string Cpf, string Nome, string Email);
 public record Cupom(string codigo, decimal PorcentagemDesconto, decimal valorMinimoregra);
