@@ -3,6 +3,8 @@ using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+app.UseDefaultFiles(); 
+app.UseStaticFiles();  
 
 string connectionString = "Server=SEU_SERVIDOR;Database=TicketPrime;User Id=SA;Password=SUA_SENHA;";
 
