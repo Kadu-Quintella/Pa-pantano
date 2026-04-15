@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>TicketPrime - Painel</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background: #f4f4f4; }
+        .container { max-width: 800px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input { display: block; width: 100%; margin: 10px 0; padding: 8px; }
+        button { background: #28a745; color: white; border: none; padding: 10px; cursor: pointer; width: 100%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎟️ TicketPrime - Gestão de Eventos</h1>
+        
+        <h3>Novo Evento</h3>
+        <input type="text" id="nome" placeholder="Nome do Evento">
+        <input type="number" id="capacidade" placeholder="Capacidade Total">
+        <input type="datetime-local" id="data">
+        <input type="number" id="preco" placeholder="Preço Padrão (ex: 150.00)">
+        <button onclick="cadastrarEvento()">Cadastrar Evento</button>
+
+        <h3>Eventos Cadastrados</h3>
+        <table id="tabelaEventos">
+            <thead>
+                <tr> Nome </tr><tr> Data </tr><tr> Preço </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = '/api/eventos';
+
+        async function carregarEventos() {
+            const res = await fetch(API_URL);
+            const eventos = await res.json();
+            const corpoTabela = document.querySelector('#tabelaEventos tbody');
+            corpoTabela.innerHTML = eventos.map(e => `
+                <tr>
+                    <td>${e.nome}</td>
+                    <td>${new Date(e.dataEvento).toLocaleString()}</td>
+                    <td>R$ ${e.precoPadrao}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function cadastrarEvento() {
+            const dados = {
+                nome: document.getElementById('nome').value,
+                capacidadeTotal: parseInt(document.getElementById('capacidade').value),
+                dataEvento: document.getElementById('data').value,
+                precoPadrao: parseFloat(document.getElementById('preco').value)
+            };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+            
+            alert('Evento cadastrado!');
+            carregarEventos();
+        }
+
+        carregarEventos();
+    </script>
+</body>
+</html>
