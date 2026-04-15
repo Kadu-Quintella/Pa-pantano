@@ -14,8 +14,11 @@ app.UseStaticFiles();
 
 string connectionString = "Server=.\\SQLEXPRESS;Database=TicketPrime;Trusted_Connection=True;TrustServerCertificate=True;";
 
+// ==========================
+// EVENTOS
+// ==========================
 
-// GET /api/eventos
+// BUSCAR eventos (GET)
 app.MapGet("/api/eventos", async () =>
 {
     using var db = new SqlConnection(connectionString);
@@ -24,8 +27,7 @@ app.MapGet("/api/eventos", async () =>
     return Results.Ok(eventos);
 });
 
-
-// POST /api/eventos
+// CADASTRAR evento (POST)
 app.MapPost("/api/eventos", async (Evento evento) =>
 {
     using var db = new SqlConnection(connectionString);
@@ -35,12 +37,21 @@ app.MapPost("/api/eventos", async (Evento evento) =>
     return Results.Created("/api/eventos", evento);
 });
 
+// ==========================
+// USUÁRIOS
+// ==========================
 
-// POST /api/usuarios
+// BUSCAR usuários (GET)
+app.MapGet("/api/usuarios", async () => {
+    using var db = new SqlConnection(connectionString);
+    var usuarios = await db.QueryAsync<Usuario>("SELECT Cpf, Nome, Email FROM Usuarios");
+    return Results.Ok(usuarios);
+});
+
+// CADASTRAR usuário (POST)
 app.MapPost("/api/usuarios", async (Usuario usuario) =>
 {
     using var db = new SqlConnection(connectionString);
-    
     var existe = await db.QueryFirstOrDefaultAsync<int>(
         "SELECT 1 FROM Usuarios WHERE Cpf = @Cpf",
         new { Cpf = usuario.Cpf }
@@ -52,11 +63,21 @@ app.MapPost("/api/usuarios", async (Usuario usuario) =>
     return Results.Created($"/api/usuarios/{usuario.Cpf}", usuario);
 });
 
-// POST /api/cupons
+// ==========================
+// CUPONS
+// ==========================
+
+// BUSCAR cupons (GET) - Necessário para aparecer na tabela do site
+app.MapGet("/api/cupons", async () => {
+    using var db = new SqlConnection(connectionString);
+    var cupons = await db.QueryAsync<Cupom>("SELECT codigo, PorcentagemDesconto, valorMinimoregra FROM Cupons");
+    return Results.Ok(cupons);
+});
+
+// CADASTRAR cupom (POST)
 app.MapPost("/api/cupons", async (Cupom cupom) =>
 {
     using var db = new SqlConnection(connectionString);
-    // Variáveis com os nomes exatos do PDF
     var sql = @"INSERT INTO Cupons (codigo, PorcentagemDesconto, valorMinimoregra) 
                 VALUES (@codigo, @PorcentagemDesconto, @valorMinimoregra)";
     await db.ExecuteAsync(sql, cupom);
@@ -65,8 +86,9 @@ app.MapPost("/api/cupons", async (Cupom cupom) =>
 
 app.Run();
 
+// ==========================
 // MODELS (Records)
+// ==========================
 public record Evento(string Nome, int CapacidadeTotal, DateTime DataEvento, decimal PrecoPadrao);
 public record Usuario(string Cpf, string Nome, string Email);
-
 public record Cupom(string codigo, decimal PorcentagemDesconto, decimal valorMinimoregra);
