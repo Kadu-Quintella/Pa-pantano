@@ -15,9 +15,8 @@ app.UseStaticFiles();
 string connectionString = "Server=localhost;Database=TicketPrime;Trusted_Connection=True;TrustServerCertificate=True;";
 
 
-// ==========================
+
 // POST /api/eventos
-// ==========================
 app.MapPost("/api/eventos", async (Evento evento) =>
 {
     using var db = new SqlConnection(connectionString);
@@ -31,9 +30,8 @@ app.MapPost("/api/eventos", async (Evento evento) =>
 });
 
 
-// ==========================
+
 // GET /api/eventos
-// ==========================
 app.MapGet("/api/eventos", async () =>
 {
     using var db = new SqlConnection(connectionString);
@@ -44,9 +42,8 @@ app.MapGet("/api/eventos", async () =>
 });
 
 
-// ==========================
+
 // POST /api/usuarios
-// ==========================
 app.MapPost("/api/usuarios", async (Usuario usuario) =>
 {
     using var db = new SqlConnection(connectionString);
@@ -67,9 +64,8 @@ app.MapPost("/api/usuarios", async (Usuario usuario) =>
 });
 
 
-// ==========================
+
 // POST /api/cupons
-// ==========================
 app.MapPost("/api/cupons", async (Cupom cupom) =>
 {
     using var db = new SqlConnection(connectionString);
@@ -86,9 +82,8 @@ app.MapPost("/api/cupons", async (Cupom cupom) =>
 app.Run();
 
 
-// ==========================
+
 // MODELS (Records)
-// ==========================
 public record Evento(string Nome, int CapacidadeTotal, DateTime DataEvento, decimal PrecoPadrao);
 
 public record Usuario(string Cpf, string Nome, string Email);
