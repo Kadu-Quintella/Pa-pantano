@@ -2,131 +2,127 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>TicketPrime - Painel</title>
+    <title>TicketPrime - Gestão Total</title>
     <style>
-        body { 
-            font-family: sans-serif; 
-            margin: 20px; 
-            background: #f4f4f4; 
-        }
-
-        .container { 
-            max-width: 800px; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            margin: auto; /* centraliza a div */
-        }
-
-        /* 🔥 IMAGEM CENTRALIZADA */
-        .logo {
-            display: block;
-            margin: 0 auto 20px auto;
-            max-width: 150px;
-        }
-
-        input { 
-            display: block; 
-            width: 100%; 
-            margin: 10px 0; 
-            padding: 8px; 
-        }
-
-        button { 
-            background: #28a745; 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            cursor: pointer; 
-            width: 100%; 
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 20px; 
-        }
-
-        th, td { 
-            border: 1px solid #ddd; 
-            padding: 8px; 
-            text-align: left; 
-        }
-
-        th {
-            background-color: #f0f0f0;
-        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 20px; background: #e9ecef; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 8px; margin-top: 40px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; border-radius: 6px; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #fff; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
+        th { background: #f8f9fa; color: #555; }
+        .btn-user { background: #6c757d; }
+        .btn-coupon { background: #17a2b8; }
     </style>
 </head>
 <body>
-    <div class="container">
 
-        <!-- 🔥 IMAGEM CENTRALIZADA -->
-        <img src="logo.png" alt="Logo TicketPrime" class="logo">
+<div class="container">
+    <h1>🎟️ TicketPrime - Administração</h1>
 
-        <h1>🎟️ TicketPrime - Gestão de Eventos</h1>
-        
-        <h3>Novo Evento</h3>
-        <input type="text" id="nome" placeholder="Nome do Evento">
-        <input type="number" id="capacidade" placeholder="Capacidade Total">
-        <input type="datetime-local" id="data">
-        <input type="number" id="preco" placeholder="Preço Padrão (ex: 150.00)">
-        <button onclick="cadastrarEvento()">Cadastrar Evento</button>
-
-        <h3>Eventos Cadastrados</h3>
-        <table id="tabelaEventos">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Data</th>
-                    <th>Preço</th>
-                </tr>
-            </thead>
+    <h2>📅 Gerenciar Eventos</h2>
+    <div class="grid">
+        <div>
+            <input type="text" id="ev-nome" placeholder="Nome do Evento">
+            <input type="number" id="ev-cap" placeholder="Capacidade Total">
+            <input type="date" id="ev-data">
+            <input type="number" id="ev-preco" placeholder="Preço Padrão (R$)">
+            <button onclick="cadastrarEvento()">Cadastrar Evento</button>
+        </div>
+        <table id="tab-eventos">
+            <thead><tr><th>Nome</th><th>Data</th><th>Preço</th></tr></thead>
             <tbody></tbody>
         </table>
     </div>
 
-    <script>
-        const API_URL = '/api/eventos';
+    <h2>👤 Gerenciar Usuários</h2>
+    <div class="grid">
+        <div>
+            <input type="text" id="user-cpf" placeholder="CPF (Ex: 123.456.789-00)">
+            <input type="text" id="user-nome" placeholder="Nome Completo">
+            <input type="email" id="user-email" placeholder="E-mail">
+            <button class="btn-user" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
+        </div>
+        <table id="tab-usuarios">
+            <thead><tr><th>Nome</th><th>CPF</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-        async function carregarEventos() {
-            const res = await fetch(API_URL);
-            const eventos = await res.json();
-            const corpoTabela = document.querySelector('#tabelaEventos tbody');
+    <h2>🎫 Gerenciar Cupons</h2>
+    <div class="grid">
+        <div>
+            <input type="text" id="cup-cod" placeholder="Código do Cupom">
+            <input type="number" id="cup-porc" placeholder="% Desconto">
+            <input type="number" id="cup-min" placeholder="Valor Mínimo Regra">
+            <button class="btn-coupon" onclick="cadastrarCupom()">Criar Cupom</button>
+        </div>
+        <table id="tab-cupons">
+            <thead><tr><th>Código</th><th>Desconto</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 
-            corpoTabela.innerHTML = eventos.map(e => `
-                <tr>
-                    <td>${e.nome}</td>
-                    <td>${new Date(e.dataEvento).toLocaleString()}</td>
-                    <td>R$ ${e.precoPadrao}</td>
-                </tr>
-            `).join('');
-        }
+<script>
+    // Funções de Carregamento (GET)
+    async function carregarTodos() {
+        // Eventos
+        const resEv = await fetch('/api/eventos');
+        const evs = await resEv.json();
+        document.querySelector('#tab-eventos tbody').innerHTML = evs.map(e => 
+            `<tr><td>${e.nome}</td><td>${new Date(e.dataEvento).toLocaleDateString()}</td><td>R$ ${e.precoPadrao}</td></tr>`).join('');
 
-        async function cadastrarEvento() {
-            const dados = {
-                nome: document.getElementById('nome').value,
-                capacidadeTotal: parseInt(document.getElementById('capacidade').value),
-                dataEvento: document.getElementById('data').value,
-                precoPadrao: parseFloat(document.getElementById('preco').value)
-            };
+        // Usuários
+        const resUs = await fetch('/api/usuarios');
+        const uss = await resUs.json();
+        document.querySelector('#tab-usuarios tbody').innerHTML = uss.map(u => 
+            `<tr><td>${u.nome}</td><td>${u.cpf}</td></tr>`).join('');
 
-            await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
-            });
-            
-            alert('Evento cadastrado!');
-            document.getElementById('nome').value = '';
-            document.getElementById('capacidade').value = '';
-            document.getElementById('data').value = '';
-            document.getElementById('preco').value = '';
-            carregarEventos();
-        }
+        // Cupons
+        const resCp = await fetch('/api/cupons');
+        const cps = await resCp.json();
+        document.querySelector('#tab-cupons tbody').innerHTML = cps.map(c => 
+            `<tr><td>${c.codigo}</td><td>${c.porcentagemDesconto}%</td></tr>`).join('');
+    }
 
-        carregarEventos();
-    </script>
+    // Funções de Cadastro (POST)
+    async function cadastrarEvento() {
+        const dados = {
+            nome: document.getElementById('ev-nome').value,
+            capacidadeTotal: parseInt(document.getElementById('ev-cap').value),
+            dataEvento: document.getElementById('ev-data').value,
+            precoPadrao: parseFloat(document.getElementById('ev-preco').value)
+        };
+        await fetch('/api/eventos', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(dados) });
+        carregarTodos();
+    }
+
+    async function cadastrarUsuario() {
+        const dados = {
+            cpf: document.getElementById('user-cpf').value,
+            nome: document.getElementById('user-nome').value,
+            email: document.getElementById('user-email').value
+        };
+        const res = await fetch('/api/usuarios', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(dados) });
+        if(res.status === 400) alert("Erro: CPF já cadastrado!");
+        carregarTodos();
+    }
+
+    async function cadastrarCupom() {
+        const dados = {
+            codigo: document.getElementById('cup-cod').value,
+            porcentagemDesconto: parseFloat(document.getElementById('cup-porc').value),
+            valorMinimoregra: parseFloat(document.getElementById('cup-min').value)
+        };
+        await fetch('/api/cupons', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(dados) });
+        carregarTodos();
+    }
+
+    carregarTodos();
+</script>
 </body>
 </html>
