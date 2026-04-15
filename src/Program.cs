@@ -2,7 +2,12 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options => options.AddDefaultPolicy(policy => 
+    policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 var app = builder.Build();
+app.UseCors();          
+app.UseDefaultFiles();  
+app.UseStaticFiles();
 app.UseDefaultFiles(); 
 app.UseStaticFiles();  
 
