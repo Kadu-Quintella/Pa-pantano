@@ -1,3 +1,13 @@
+CUSE TicketPrime;
+GO
+
+DROP TABLE IF EXISTS Reservas;
+DROP TABLE IF EXISTS Cupons;
+DROP TABLE IF EXISTS Eventos;
+DROP TABLE IF EXISTS Usuarios;
+GO
+
+
 CREATE TABLE Usuarios (
     Cpf VARCHAR(14) PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
@@ -13,9 +23,9 @@ CREATE TABLE Eventos (
 );
 
 CREATE TABLE Cupons (
-    Codigo VARCHAR(50) PRIMARY KEY,
+    codigo VARCHAR(50) PRIMARY KEY,
     PorcentagemDesconto DECIMAL(5,2) NOT NULL,
-    ValorMinimoRegra DECIMAL(10,2) NOT NULL
+    valorMinimoregra DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE Reservas (
@@ -26,5 +36,6 @@ CREATE TABLE Reservas (
     ValorFinalPago DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (UsuarioCpf) REFERENCES Usuarios(Cpf),
     FOREIGN KEY (EventoId) REFERENCES Eventos(Id),
-    FOREIGN KEY (CupomUtilizado) REFERENCES Cupons(Codigo)
+    FOREIGN KEY (CupomUtilizado) REFERENCES Cupons(codigo)
 );
+GO
